@@ -1,0 +1,41 @@
+# PORT
+server:
+  port: 8088
+
+# SPRING SERVICE
+spring:
+  application:
+    name: manguebits
+  config:
+    import: optional:file:.env[.properties]
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://POSTGRESQL_DEVELOPMENT_HOST:POSTGRESQL_DEVELOPMENT_PORT/${POSTGRESQL_DEVELOPMENT_DATABASE}
+    username: ${POSTGRESQL_DEVELOPMENT_USER}
+    password: ${POSTGRESQL_DEVELOPMENT_PASSWORD}
+    hikari:
+      auto-commit: true
+      isolation-level: CONNECTION  # ou TRANSACTION_READ_COMMITTED
+      minimum-idle: 5
+      maximum-pool-size: 10
+      idle-timeout: 30000
+
+# TIMEZONE POSTGRESQL
+app:
+  timezone: ${TZ:UTC}
+
+  # JPA, SQL
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+      show-sql: false
+
+# LOGGER
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE

@@ -1,0 +1,56 @@
+# Build directories
+target/
+out/
+!**/src/main/**/target/
+!**/src/test/**/target/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+# IntelliJ IDEA
+.idea/
+.idea/modules.xml
+.idea/jarRepositories.xml
+.idea/compiler.xml
+.idea/libraries/
+*.iws
+*.iml
+*.ipr
+
+# Eclipse
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+/.mvn/
+.gradle/
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# VS Code
+.vscode/
+
+# Mac OS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# Node.js (se houver)
+node_modules/
+yarn.lock
+package-lock.json
+
+# Log files
+*.log
