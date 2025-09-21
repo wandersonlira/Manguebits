@@ -10,7 +10,7 @@ spring:
     import: optional:file:.env[.properties]
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://POSTGRESQL_DEVELOPMENT_HOST:POSTGRESQL_DEVELOPMENT_PORT/${POSTGRESQL_DEVELOPMENT_DATABASE}
+    url: jdbc:postgresql://${POSTGRESQL_DEVELOPMENT_HOST}:${POSTGRESQL_DEVELOPMENT_PORT}/${POSTGRESQL_DEVELOPMENT_DATABASE}
     username: ${POSTGRESQL_DEVELOPMENT_USER}
     password: ${POSTGRESQL_DEVELOPMENT_PASSWORD}
     hikari:
