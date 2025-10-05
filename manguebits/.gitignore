@@ -52,5 +52,8 @@ node_modules/
 yarn.lock
 package-lock.json
 
+### Environment variables
+.env
+
 # Log files
 *.log
