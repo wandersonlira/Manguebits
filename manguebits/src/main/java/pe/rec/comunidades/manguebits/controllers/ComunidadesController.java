@@ -1,9 +1,12 @@
 package pe.rec.comunidades.manguebits.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pe.rec.comunidades.manguebits.dto.comunidadesDTO.ComunidadesCreateDTO;
+import pe.rec.comunidades.manguebits.dto.comunidadesDTO.ComunidadesUpdateDTO;
 import pe.rec.comunidades.manguebits.model.Comunidades;
 import pe.rec.comunidades.manguebits.services.ComunidadesService;
 import pe.rec.comunidades.manguebits.utils.ErrorResponse;
@@ -23,10 +26,10 @@ public class ComunidadesController {
     }
 
     @PostMapping(value = "/v1")
-    public ResponseEntity<?> create(@RequestBody Comunidades community) {
+    public ResponseEntity<?> create(@RequestBody @Valid ComunidadesCreateDTO communityDTO) {
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(
-                    this.service.save(community));
+                    this.service.save(communityDTO));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
                     new ErrorResponse(e.getMessage()));
@@ -55,10 +58,10 @@ public class ComunidadesController {
     @PutMapping(value = {"/v1/{id}"})
     public ResponseEntity<?> update(
             @PathVariable(value = "id") Long id,
-            @RequestBody Comunidades request) {
+            @RequestBody @Valid ComunidadesUpdateDTO communityUpdateDTO) {
         try {
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(
-                    this.service.update(id, request)
+                    this.service.update(id, communityUpdateDTO)
             );
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(

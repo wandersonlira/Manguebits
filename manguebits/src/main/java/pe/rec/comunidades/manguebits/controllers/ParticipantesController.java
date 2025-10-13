@@ -1,14 +1,12 @@
 package pe.rec.comunidades.manguebits.controllers;
 
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pe.rec.comunidades.manguebits.utils.ErrorResponse;
-import pe.rec.comunidades.manguebits.dto.ParticipantesDTO;
+import pe.rec.comunidades.manguebits.dto.participantesDTO.ParticipantesDTO;
 import pe.rec.comunidades.manguebits.interfaces.services.IParticipantesService;
 import pe.rec.comunidades.manguebits.model.Participantes;
 

@@ -3,6 +3,8 @@ package pe.rec.comunidades.manguebits.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pe.rec.comunidades.manguebits.dto.comunidadesDTO.ComunidadesCreateDTO;
+import pe.rec.comunidades.manguebits.dto.comunidadesDTO.ComunidadesUpdateDTO;
 import pe.rec.comunidades.manguebits.model.Comunidades;
 import pe.rec.comunidades.manguebits.repositories.ComunidadesRepository;
 import pe.rec.comunidades.manguebits.utils.communitiesUtils.ComunidadesUtils;
@@ -19,7 +21,10 @@ public class ComunidadesService {
     public ComunidadesService(ComunidadesRepository repository) {this.repository = repository;}
 
 
-    public Comunidades save(Comunidades community) {return this.repository.save(community);}
+    public Comunidades save(ComunidadesCreateDTO communityDTO) {
+        Comunidades community = ComunidadesCreateDTO.toEntity(communityDTO);
+        return this.repository.save(community);
+    }
 
     public List<Comunidades> findAll() {return this.repository.findAll();}
 
@@ -28,12 +33,12 @@ public class ComunidadesService {
         return community.orElseThrow(() -> new NoSuchElementException("Registro não encontrado!"));
     }
 
-    public boolean update(Long id, Comunidades communityDTOUpdated) {
+    public boolean update(Long id, ComunidadesUpdateDTO communityUpdateDTO) {
         boolean bool = false;
         Comunidades community = this.findById(id);
-        if (ComunidadesUtils.checksDataUpdate(communityDTOUpdated, community)){
-            community.setNome(communityDTOUpdated.getNome());
-            community.setDescricao(communityDTOUpdated.getDescricao());
+        if (ComunidadesUtils.checksDataUpdate(community, communityUpdateDTO)){
+            community.setNome(communityUpdateDTO.nome());
+            community.setDescricao(communityUpdateDTO.descricao());
             this.repository.save(community);
             bool = true;
         }
