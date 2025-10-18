@@ -1,9 +1,8 @@
 package pe.rec.comunidades.manguebits.repositories;
 
-import com.seuprojeto.posts.model.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import pe.rec.comunidades.manguebits.model.Posts;
 
 @Repository
-public interface PostRepository extends JpaRepository<Post, Long> {
-}
+public interface PostsRepository extends JpaRepository<Posts, Long> {}
