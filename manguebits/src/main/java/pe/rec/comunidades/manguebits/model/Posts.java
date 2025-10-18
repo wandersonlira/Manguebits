@@ -29,7 +29,7 @@ public class Posts {
 
     public Long getIdPost() { return idPost; }
     public void setIdPost(Long idPost) { this.idPost = idPost; }
-    public String getNome() { return nome; }
+    public String getNome() { return this.nome; }
     public void setNome(String nome) { this.nome = nome; }
     public Integer getCurtidas() { return curtidas; }
     public void setCurtidas(Integer curtidas) { this.curtidas = curtidas; }

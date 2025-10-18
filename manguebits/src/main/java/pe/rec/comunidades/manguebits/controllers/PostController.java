@@ -1,7 +1,7 @@
-package pe.rec.comunidades.manguebits.controller;
+package pe.rec.comunidades.manguebits.controllers;
 
 import pe.rec.comunidades.manguebits.dto.postsDTO.PostDTO;
-import pe.rec.comunidades.manguebits.service.IPostService;
+import pe.rec.comunidades.manguebits.interfaces.services.IPostService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

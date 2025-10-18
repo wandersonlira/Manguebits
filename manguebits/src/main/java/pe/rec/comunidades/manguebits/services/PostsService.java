@@ -1,32 +1,36 @@
 package pe.rec.comunidades.manguebits.services;
 
+import org.springframework.stereotype.Service;
 import pe.rec.comunidades.manguebits.dto.postsDTO.PostDTO;
-import pe.rec.comunidades.manguebits.model.Post;
-import pe.rec.comunidades.manguebits.repository.PostRepository;
+import pe.rec.comunidades.manguebits.interfaces.services.IPostService;
+import pe.rec.comunidades.manguebits.model.Posts;
+import pe.rec.comunidades.manguebits.repositories.PostsRepository;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class PostServiceImpl implements IPostService {
+@Service
+public class PostsService implements IPostService {
 
-    private final PostRepository repository;
+    private final PostsRepository repository;
 
-    public PostServiceImpl(PostRepository repository) {
+    public PostsService(PostsRepository repository) {
         this.repository = repository;
     }
 
     @Override
     public PostDTO createPost(PostDTO postDTO) {
-        Post post = new Post();
+        Posts post = new Posts();
         post.setNome(postDTO.nome());
         post.setIdComunidade(postDTO.idComunidade());
-        Post saved = repository.save(post);
+        Posts saved = repository.save(post);
         return mapToDTO(saved);
     }
 
     @Override
     public PostDTO getPostById(Long id) {
-        Post post = repository.findById(id);
-        return mapToDTO(post);
+        Optional<Posts> post = repository.findById(id);
+        return mapToDTO(post.get());
     }
 
     @Override
@@ -38,20 +42,21 @@ public class PostServiceImpl implements IPostService {
 
     @Override
     public PostDTO updatePost(Long id, PostDTO postDTO) {
-        Post post = repository.findById(id);
-        post.setNome(postDTO.nome());
-        post.setCurtidas(postDTO.curtidas());
-        post.setIdComunidade(postDTO.idComunidade());
-        Post updated = repository.update(post);
+        Optional<Posts> post = repository.findById(id);
+        post.get().setNome(postDTO.nome());
+        post.get().setCurtidas(postDTO.curtidas());
+        post.get().setIdComunidade(postDTO.idComunidade());
+        Posts updated = repository.save(post.get());
         return mapToDTO(updated);
     }
 
     @Override
     public void deletePost(Long id) {
-        repository.delete(id);
+        Optional<Posts> post = this.repository.findById(id);
+        repository.delete(post.get());
     }
 
-    private PostDTO mapToDTO(Post post) {
+    private PostDTO mapToDTO(Posts post) {
         return new PostDTO(
                 post.getIdPost(),
                 post.getNome(),
