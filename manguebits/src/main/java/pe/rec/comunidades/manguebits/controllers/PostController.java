@@ -1,6 +1,6 @@
 package pe.rec.comunidades.manguebits.controllers;
 
-import pe.rec.comunidades.manguebits.dto.postsDTO.PostDTO;
+import pe.rec.comunidades.manguebits.dto.postsDTO.PostsDTO;
 import pe.rec.comunidades.manguebits.interfaces.services.IPostService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,29 +18,29 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<PostDTO> criarPost(@RequestBody PostDTO postDTO) {
-        PostDTO criado = postService.createPost(postDTO);
+    public ResponseEntity<PostsDTO> criarPost(@RequestBody PostsDTO postsDTO) {
+        PostsDTO criado = postService.createPost(postsDTO);
         return ResponseEntity.status(201).body(criado);
     }
 
     @GetMapping
-    public ResponseEntity<List<PostDTO>> listarPosts() {
-        List<PostDTO> lista = postService.getAllPosts();
+    public ResponseEntity<List<PostsDTO>> listarPosts() {
+        List<PostsDTO> lista = postService.getAllPosts();
         return ResponseEntity.ok(lista);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PostDTO> buscarPostPorId(@PathVariable Long id) {
-        PostDTO post = postService.getPostById(id);
+    public ResponseEntity<PostsDTO> buscarPostPorId(@PathVariable Long id) {
+        PostsDTO post = postService.getPostById(id);
         return ResponseEntity.ok(post);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PostDTO> atualizarPost(
+    public ResponseEntity<PostsDTO> atualizarPost(
             @PathVariable Long id,
-            @RequestBody PostDTO postDTO
+            @RequestBody PostsDTO postsDTO
     ) {
-        PostDTO atualizado = postService.updatePost(id, postDTO);
+        PostsDTO atualizado = postService.updatePost(id, postsDTO);
         return ResponseEntity.ok(atualizado);
     }
 
