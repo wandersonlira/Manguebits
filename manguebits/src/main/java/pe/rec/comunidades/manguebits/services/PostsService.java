@@ -1,7 +1,7 @@
 package pe.rec.comunidades.manguebits.services;
 
 import org.springframework.stereotype.Service;
-import pe.rec.comunidades.manguebits.dto.postsDTO.PostDTO;
+import pe.rec.comunidades.manguebits.dto.postsDTO.PostsDTO;
 import pe.rec.comunidades.manguebits.interfaces.services.IPostService;
 import pe.rec.comunidades.manguebits.model.Posts;
 import pe.rec.comunidades.manguebits.repositories.PostsRepository;
@@ -19,7 +19,7 @@ public class PostsService implements IPostService {
     }
 
     @Override
-    public PostDTO createPost(PostDTO postDTO) {
+    public PostsDTO createPost(PostsDTO postDTO) {
         Posts post = new Posts();
         post.setNome(postDTO.nome());
         post.setIdComunidade(postDTO.idComunidade());
@@ -28,20 +28,20 @@ public class PostsService implements IPostService {
     }
 
     @Override
-    public PostDTO getPostById(Long id) {
+    public PostsDTO getPostById(Long id) {
         Optional<Posts> post = repository.findById(id);
         return mapToDTO(post.get());
     }
 
     @Override
-    public List<PostDTO> getAllPosts() {
+    public List<PostsDTO> getAllPosts() {
         return repository.findAll().stream()
                 .map(this::mapToDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public PostDTO updatePost(Long id, PostDTO postDTO) {
+    public PostsDTO updatePost(Long id, PostsDTO postDTO) {
         Optional<Posts> post = repository.findById(id);
         post.get().setNome(postDTO.nome());
         post.get().setCurtidas(postDTO.curtidas());
@@ -56,8 +56,8 @@ public class PostsService implements IPostService {
         repository.delete(post.get());
     }
 
-    private PostDTO mapToDTO(Posts post) {
-        return new PostDTO(
+    private PostsDTO mapToDTO(Posts post) {
+        return new PostsDTO(
                 post.getIdPost(),
                 post.getNome(),
                 post.getCurtidas(),
