@@ -3,7 +3,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pe.rec.comunidades.manguebits.dto.LoginDTO;
 import pe.rec.comunidades.manguebits.utils.ErrorResponse;
-import pe.rec.comunidades.manguebits.dto.ParticipantesDTO;
+import pe.rec.comunidades.manguebits.dto.participantesDTO.ParticipantesDTO;
 import pe.rec.comunidades.manguebits.interfaces.services.IParticipantesService;
 import pe.rec.comunidades.manguebits.model.Participantes;
 

@@ -1,4 +1,4 @@
-package pe.rec.comunidades.manguebits.dto;
+package pe.rec.comunidades.manguebits.dto.participantesDTO;
 
 public class ParticipantesDTO {
     private String nome;
