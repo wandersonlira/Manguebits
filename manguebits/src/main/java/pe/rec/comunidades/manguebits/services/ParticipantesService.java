@@ -1,8 +1,6 @@
 package pe.rec.comunidades.manguebits.services;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 import pe.rec.comunidades.manguebits.repositories.ParticipantesRepository;
 import pe.rec.comunidades.manguebits.interfaces.services.IParticipantesService;
 import pe.rec.comunidades.manguebits.model.Participantes;
@@ -33,5 +31,10 @@ public class ParticipantesService implements IParticipantesService {
         }
 
         return participantesRepository.save(participante);
+    }
+
+    @Override
+    public Optional<Participantes> login(String email, String senha) {
+        return participantesRepository.findByEmailAndSenha(email, senha);
     }
 }

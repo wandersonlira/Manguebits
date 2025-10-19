@@ -1,16 +1,13 @@
 package pe.rec.comunidades.manguebits.controllers;
-
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import pe.rec.comunidades.manguebits.dto.LoginDTO;
 import pe.rec.comunidades.manguebits.utils.ErrorResponse;
 import pe.rec.comunidades.manguebits.dto.ParticipantesDTO;
 import pe.rec.comunidades.manguebits.interfaces.services.IParticipantesService;
 import pe.rec.comunidades.manguebits.model.Participantes;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/manguebits/participantes")
@@ -22,7 +19,7 @@ public class ParticipantesController {
         this.participantesService = participanteService;
     }
 
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<?> criarParticipante(@RequestBody ParticipantesDTO dto) {
         try {
             Participantes participante = new Participantes();
@@ -41,6 +38,22 @@ public class ParticipantesController {
             return ResponseEntity
                     .status(400)
                     .body(new ErrorResponse(ex.getMessage()));
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginDTO dto) {
+        try {
+            Optional<Participantes> participanteOpt = participantesService.login(dto.getEmail(), dto.getSenha());
+
+            if (participanteOpt.isEmpty()) {
+                return ResponseEntity.status(401).body(new ErrorResponse("Credenciais inválidas"));
+            }
+
+            return ResponseEntity.ok(participanteOpt.get());
+
+        } catch (Exception ex) {
+            return ResponseEntity.status(500).body(new ErrorResponse("Erro no servidor"));
         }
     }
 }
