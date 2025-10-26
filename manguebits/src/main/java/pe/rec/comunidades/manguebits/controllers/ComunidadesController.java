@@ -10,6 +10,7 @@ import pe.rec.comunidades.manguebits.dto.comunidadesDTO.ComunidadesUpdateDTO;
 import pe.rec.comunidades.manguebits.model.Comunidades;
 import pe.rec.comunidades.manguebits.services.ComunidadesService;
 import pe.rec.comunidades.manguebits.utils.ErrorResponse;
+import pe.rec.comunidades.manguebits.utils.communitiesUtils.ComunidadesUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,12 +22,10 @@ public class ComunidadesController {
     private final ComunidadesService service;
 
     @Autowired
-    public ComunidadesController(ComunidadesService service) {
-        this.service = service;
-    }
+    public ComunidadesController(ComunidadesService service) { this.service = service; }
 
-    @PostMapping(value = "/v1")
-    public ResponseEntity<?> create(@RequestBody @Valid ComunidadesCreateDTO communityDTO) {
+    @PostMapping(value = {"/v1/"})
+    public ResponseEntity<?> create(/*@Valid*/@RequestBody ComunidadesCreateDTO communityDTO) {
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(
                     this.service.save(communityDTO));
@@ -47,10 +46,10 @@ public class ComunidadesController {
         }
     }
 
-    @GetMapping(value = {"/v1/"})
+    @GetMapping(value = {"/v1"})
     public ResponseEntity<List<Comunidades>> findAll() {
         List<Comunidades> communities = this.service.findAll().stream()
-                .map(community -> new Comunidades())
+                .map(ComunidadesUtils::mapToComunidades)
                 .collect(Collectors.toList());
         return ResponseEntity.status(HttpStatus.OK).body(communities);
     }
@@ -58,7 +57,7 @@ public class ComunidadesController {
     @PutMapping(value = {"/v1/{id}"})
     public ResponseEntity<?> update(
             @PathVariable(value = "id") Long id,
-            @RequestBody @Valid ComunidadesUpdateDTO communityUpdateDTO) {
+            @RequestBody /*@Valid*/ ComunidadesUpdateDTO communityUpdateDTO) {
         try {
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(
                     this.service.update(id, communityUpdateDTO)

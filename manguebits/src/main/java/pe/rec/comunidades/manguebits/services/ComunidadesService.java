@@ -18,7 +18,7 @@ public class ComunidadesService {
     private final ComunidadesRepository repository;
 
     @Autowired
-    public ComunidadesService(ComunidadesRepository repository) {this.repository = repository;}
+    public ComunidadesService(ComunidadesRepository repository) { this.repository = repository; }
 
 
     public Comunidades save(ComunidadesCreateDTO communityDTO) {
@@ -29,7 +29,7 @@ public class ComunidadesService {
     public List<Comunidades> findAll() {return this.repository.findAll();}
 
     public Comunidades findById(Long id) {
-        Optional<Comunidades> community = this.repository.findById(id);
+        Optional<Comunidades> community = this.repository.findById(id).map(ComunidadesUtils::mapToComunidades);
         return community.orElseThrow(() -> new NoSuchElementException("Registro não encontrado!"));
     }
 

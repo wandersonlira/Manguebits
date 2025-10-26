@@ -6,6 +6,8 @@ import pe.rec.comunidades.manguebits.enums.Categoria;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -18,7 +20,7 @@ public class Comunidades implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_comunidade")
     private Long id;
-    @Column(name = "nome", nullable = false, length = 150)
+    @Column(name = "conteudo", nullable = false, length = 150)
     private String nome;
     @Column(name = "descricao", nullable = false, length = 550)
     private String descricao;
@@ -30,6 +32,8 @@ public class Comunidades implements Serializable {
     private LocalDateTime createdAt;
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
+    @OneToMany(mappedBy = "comunidade", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private final List<Posts> posts = new ArrayList<Posts>();
 
 
     public Comunidades() {}
@@ -46,7 +50,6 @@ public class Comunidades implements Serializable {
 
 
     public Long getId() {return id;}
-    public void setId(Long id) {this.id = id;}
 
     public String getNome() {return nome;}
     public void setNome(String nome) {this.nome = nome;}
@@ -61,11 +64,19 @@ public class Comunidades implements Serializable {
     public void setCategoria(Categoria categoria) {this.categoria = categoria;}
 
     public LocalDateTime getCreatedAt() {return createdAt;}
-    public void setCreatedAt(LocalDateTime createdAt) {this.createdAt = createdAt;}
 
     public LocalDateTime getUpdatedAt() {return updatedAt;}
-    public void setUpdatedAt(LocalDateTime updatedAt) {this.updatedAt = updatedAt;}
 
+    public List<Posts> getPosts() { return posts; }
+
+    public void addPost(Posts post) {
+        this.posts.add(post);
+        post.setComunidade(this);
+    }
+    public void removePost(Posts post) {
+        this.posts.remove(post);
+        post.setComunidade(null);
+    }
 
     @PrePersist
     protected void onCreate() {
