@@ -17,6 +17,12 @@ public class ComunidadesUtils {
                 community.getDescricao(), community.getAdministrador(),
                 community.getCategoria(), community.getCreatedAt(), community.getUpdatedAt());
     }
+
+    public static Comunidades mapToComunidadesFetchPosts(Comunidades community) {
+        return new Comunidades(community.getId(), community.getNome(),
+                community.getDescricao(), community.getAdministrador(),
+                community.getCategoria(), community.getCreatedAt(), community.getUpdatedAt(), community.getPosts());
+    }
 }
 
 

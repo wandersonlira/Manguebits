@@ -1,5 +1,6 @@
 package pe.rec.comunidades.manguebits.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -7,34 +8,41 @@ import java.time.LocalDateTime;
 @Table(name = "posts")
 public class Posts {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idPost;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long idPost;
+    @Column(name = "conteudo", nullable = false, length = 380) private String conteudo;
+    @Column(name = "curtidas", nullable = false) private Integer curtidas;
+    @Column(name = "created_at", nullable = false, updatable = false) private LocalDateTime createdAt;
+    @Column(name = "updated_at", nullable = false) private LocalDateTime updatedAt;
+    @JsonIgnore @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "id_comunidade", nullable = false) private Comunidades comunidade;
 
-    private String nome;
-    private Integer curtidas = 0;
 
-    @Column(nullable = false)
-    private Integer idComunidade;
+    public Posts() {}
+    public Posts(Long idPost, String conteudo, Integer curtidas, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.idPost = idPost;
+        this.conteudo = conteudo;
+        this.curtidas = curtidas;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+    public Long getIdPost() { return idPost; }
+    public String getConteudo() { return this.conteudo; }
+    public void setConteudo(String conteudo) { this.conteudo = conteudo; }
+    public Integer getCurtidas() { return curtidas; }
+    public void setCurtidas(Integer curtidas) { this.curtidas = curtidas; }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public Comunidades getComunidade() { return comunidade; }
+    public void setComunidade(Comunidades comunidade) { this.comunidade = comunidade; }
 
-    private LocalDateTime updatedAt = LocalDateTime.now();
 
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
     @PreUpdate
     public void preUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
-
-    public Long getIdPost() { return idPost; }
-    public void setIdPost(Long idPost) { this.idPost = idPost; }
-    public String getNome() { return this.nome; }
-    public void setNome(String nome) { this.nome = nome; }
-    public Integer getCurtidas() { return curtidas; }
-    public void setCurtidas(Integer curtidas) { this.curtidas = curtidas; }
-    public Integer getIdComunidade() { return idComunidade; }
-    public void setIdComunidade(Integer idComunidade) { this.idComunidade = idComunidade; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
 }

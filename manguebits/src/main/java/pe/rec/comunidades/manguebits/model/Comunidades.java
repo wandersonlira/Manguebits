@@ -20,7 +20,7 @@ public class Comunidades implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_comunidade")
     private Long id;
-    @Column(name = "conteudo", nullable = false, length = 150)
+    @Column(name = "nome", nullable = false, length = 150)
     private String nome;
     @Column(name = "descricao", nullable = false, length = 550)
     private String descricao;
@@ -33,7 +33,7 @@ public class Comunidades implements Serializable {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
     @OneToMany(mappedBy = "comunidade", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private final List<Posts> posts = new ArrayList<Posts>();
+    private List<Posts> posts = new ArrayList<Posts>();
 
 
     public Comunidades() {}
@@ -47,26 +47,30 @@ public class Comunidades implements Serializable {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
+    public Comunidades(Long id, String nome, String descricao, String administrador,
+                       Categoria categoria, LocalDateTime createdAt, LocalDateTime updatedAt, List<Posts> posts) {
+        this.id = id;
+        this.nome = nome;
+        this.descricao = descricao;
+        this.administrador = administrador;
+        this.categoria = categoria;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.posts = posts;
+    }
 
 
     public Long getId() {return id;}
-
     public String getNome() {return nome;}
     public void setNome(String nome) {this.nome = nome;}
-
     public String getDescricao() {return descricao;}
     public void setDescricao(String descricao) {this.descricao = descricao;}
-
     public String getAdministrador() {return administrador;}
     public void setAdministrador(String administrador) {this.administrador = administrador;}
-
     public Categoria getCategoria() {return categoria;}
     public void setCategoria(Categoria categoria) {this.categoria = categoria;}
-
     public LocalDateTime getCreatedAt() {return createdAt;}
-
     public LocalDateTime getUpdatedAt() {return updatedAt;}
-
     public List<Posts> getPosts() { return posts; }
 
     public void addPost(Posts post) {
