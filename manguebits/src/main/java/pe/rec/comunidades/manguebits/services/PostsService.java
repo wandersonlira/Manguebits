@@ -1,69 +1,54 @@
 package pe.rec.comunidades.manguebits.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import pe.rec.comunidades.manguebits.dto.postsDTO.PostsDTO;
+import pe.rec.comunidades.manguebits.dto.postsDTO.PostsCreateDTO;
+import pe.rec.comunidades.manguebits.dto.postsDTO.PostsUpdateDTO;
 import pe.rec.comunidades.manguebits.interfaces.services.IPostService;
+import pe.rec.comunidades.manguebits.model.Comunidades;
 import pe.rec.comunidades.manguebits.model.Posts;
 import pe.rec.comunidades.manguebits.repositories.PostsRepository;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import pe.rec.comunidades.manguebits.utils.postsUtils.PostsUtils;
 
 @Service
 public class PostsService implements IPostService {
+    private final PostsRepository postsRepository;
 
-    private final PostsRepository repository;
-
-    public PostsService(PostsRepository repository) {
-        this.repository = repository;
+    @Autowired
+    public PostsService(PostsRepository postsRepository) {
+        this.postsRepository = postsRepository;
     }
 
     @Override
-    public PostsDTO createPost(PostsDTO postDTO) {
-        Posts post = new Posts();
-        post.setNome(postDTO.nome());
-        post.setIdComunidade(postDTO.idComunidade());
-        Posts saved = repository.save(post);
-        return mapToDTO(saved);
+    public void createPost(PostsCreateDTO postDTO, Comunidades community) {
+        Posts post = PostsCreateDTO.toEntity(postDTO, community);
+        postsRepository.save(post);
     }
 
     @Override
-    public PostsDTO getPostById(Long id) {
-        Optional<Posts> post = repository.findById(id);
-        return mapToDTO(post.get());
+    public Posts findById(Long id) {
+        return this.postsRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("Nenhum Posts encontrado!"));
     }
 
     @Override
-    public List<PostsDTO> getAllPosts() {
-        return repository.findAll().stream()
-                .map(this::mapToDTO)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public PostsDTO updatePost(Long id, PostsDTO postDTO) {
-        Optional<Posts> post = repository.findById(id);
-        post.get().setNome(postDTO.nome());
-        post.get().setCurtidas(postDTO.curtidas());
-        post.get().setIdComunidade(postDTO.idComunidade());
-        Posts updated = repository.save(post.get());
-        return mapToDTO(updated);
+    public HttpStatus updatePost(Long id, PostsUpdateDTO postsUpdateDTO) {
+        HttpStatus updated = HttpStatus.NO_CONTENT;
+        Posts post = this.findById(id);
+        if (PostsUtils.checksDataUpdate(post, postsUpdateDTO)) {
+            post.setConteudo(postsUpdateDTO.conteudo());
+            post.setCurtidas(postsUpdateDTO.curtidas());
+            this.postsRepository.save(post);
+            updated = HttpStatus.ACCEPTED;
+        }
+        return updated;
     }
 
     @Override
     public void deletePost(Long id) {
-        Optional<Posts> post = this.repository.findById(id);
-        repository.delete(post.get());
+        Posts post = this.findById(id);
+        postsRepository.delete(post);
     }
 
-    private PostsDTO mapToDTO(Posts post) {
-        return new PostsDTO(
-                post.getIdPost(),
-                post.getNome(),
-                post.getCurtidas(),
-                post.getIdComunidade(),
-                post.getCreatedAt(),
-                post.getUpdatedAt()
-        );
-    }
 }

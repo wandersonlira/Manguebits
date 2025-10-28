@@ -11,6 +11,18 @@ public class ComunidadesUtils {
         return !Objects.equals(community.getNome(), communityUpdateDTO.nome())
                 || !Objects.equals(community.getDescricao(), communityUpdateDTO.descricao());
     }
+
+    public static Comunidades mapToComunidades(Comunidades community) {
+        return new Comunidades(community.getId(), community.getNome(),
+                community.getDescricao(), community.getAdministrador(),
+                community.getCategoria(), community.getCreatedAt(), community.getUpdatedAt());
+    }
+
+    public static Comunidades mapToComunidadesFetchPosts(Comunidades community) {
+        return new Comunidades(community.getId(), community.getNome(),
+                community.getDescricao(), community.getAdministrador(),
+                community.getCategoria(), community.getCreatedAt(), community.getUpdatedAt(), community.getPosts());
+    }
 }
 
 
