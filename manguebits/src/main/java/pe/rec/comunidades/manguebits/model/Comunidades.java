@@ -34,6 +34,23 @@ public class Comunidades implements Serializable {
     private LocalDateTime updatedAt;
     @OneToMany(mappedBy = "comunidade", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Posts> posts = new ArrayList<Posts>();
+    @ManyToMany(mappedBy = "comunidades", fetch = FetchType.LAZY)
+    private List<Participantes> participantes = new ArrayList<>();
+
+
+    public List<Participantes> getParticipantes() {
+        return participantes;
+    }
+
+    public void addParticipante(Participantes participante) {
+        this.participantes.add(participante);
+        participante.getComunidades().add(this);
+    }
+
+    public void removeParticipante(Participantes participante) {
+        this.participantes.remove(participante);
+        participante.getComunidades().remove(this);
+    }
 
 
     public Comunidades() {}
