@@ -1,4 +1,5 @@
 package pe.rec.comunidades.manguebits.controllers;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pe.rec.comunidades.manguebits.dto.LoginDTO;
@@ -56,5 +57,40 @@ public class ParticipantesController {
             return ResponseEntity.status(500).body(new ErrorResponse("Erro no servidor"));
         }
     }
+
+    // 🔹 Relacionamento com comunidades
+    @GetMapping("/{idParticipante}/comunidades")
+    public ResponseEntity<?> listarComunidades(@PathVariable Long idParticipante) {
+        try {
+            return ResponseEntity.ok(participantesService.listarComunidadesDoParticipante(idParticipante));
+        } catch (Exception e) {
+            return ResponseEntity.status(404).body(new ErrorResponse(e.getMessage()));
+        }
+    }
+
+    @PostMapping("/{idParticipante}/comunidades/{idComunidade}")
+    public ResponseEntity<?> adicionarComunidade(
+            @PathVariable Long idParticipante,
+            @PathVariable Long idComunidade) {
+        try {
+            HttpStatus status = participantesService.adicionarComunidade(idParticipante, idComunidade);
+            return ResponseEntity.status(status).body("Comunidade adicionada com sucesso ao participante.");
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(new ErrorResponse(e.getMessage()));
+        }
+    }
+
+    @DeleteMapping("/{idParticipante}/comunidades/{idComunidade}")
+    public ResponseEntity<?> removerComunidade(
+            @PathVariable Long idParticipante,
+            @PathVariable Long idComunidade) {
+        try {
+            HttpStatus status = participantesService.removerComunidade(idParticipante, idComunidade);
+            return ResponseEntity.status(status).body("Comunidade removida com sucesso do participante.");
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(new ErrorResponse(e.getMessage()));
+        }
+    }
+
 }
 

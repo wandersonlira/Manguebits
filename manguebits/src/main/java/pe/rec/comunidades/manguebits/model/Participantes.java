@@ -3,6 +3,8 @@ package pe.rec.comunidades.manguebits.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "participantes")
@@ -30,6 +32,31 @@ public class Participantes {
 
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "participantes_comunidades",
+            joinColumns = @JoinColumn(name = "id_participante"),
+            inverseJoinColumns = @JoinColumn(name = "id_comunidade")
+    )
+
+    private List<Comunidades> comunidades = new ArrayList<>();
+
+    public List<Comunidades> getComunidades() {
+        return comunidades;
+    }
+
+    public void addComunidade(Comunidades comunidade) {
+        this.comunidades.add(comunidade);
+        comunidade.getParticipantes().add(this);
+    }
+
+    public void removeComunidade(Comunidades comunidade) {
+        this.comunidades.remove(comunidade);
+        comunidade.getParticipantes().remove(this);
+    }
+
+
 
     public Long getId() {
         return id;

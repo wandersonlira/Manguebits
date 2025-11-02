@@ -22,7 +22,9 @@ public class ComunidadesController {
     private final ComunidadesService service;
 
     @Autowired
-    public ComunidadesController(ComunidadesService service) { this.service = service; }
+    public ComunidadesController(ComunidadesService service) {
+        this.service = service;
+    }
 
     @PostMapping(value = {"/v1/"})
     public ResponseEntity<?> create(/*@Valid*/@RequestBody ComunidadesCreateDTO communityDTO) {
@@ -110,6 +112,30 @@ public class ComunidadesController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
                     new ErrorResponse(e.getMessage())
             );
+        }
+    }
+
+    @PostMapping(value = {"/v1/{idComunidade}/participantes/{idParticipante}"})
+    public ResponseEntity<?> adicionarParticipante(
+            @PathVariable Long idComunidade,
+            @PathVariable Long idParticipante) {
+        try {
+            HttpStatus status = service.adicionarParticipante(idComunidade, idParticipante);
+            return ResponseEntity.status(status).body("Participante adicionado com sucesso à comunidade.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(e.getMessage()));
+        }
+    }
+
+    @DeleteMapping(value = {"/v1/{idComunidade}/participantes/{idParticipante}"})
+    public ResponseEntity<?> removerParticipante(
+            @PathVariable Long idComunidade,
+            @PathVariable Long idParticipante) {
+        try {
+            HttpStatus status = service.removerParticipante(idComunidade, idParticipante);
+            return ResponseEntity.status(status).body("Participante removido com sucesso da comunidade.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(e.getMessage()));
         }
     }
 }
