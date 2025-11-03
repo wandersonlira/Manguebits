@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @CrossOrigin(maxAge = 3600)
 @RestController
-@RequestMapping(value = {"/api/comunidades"}, consumes = {"application/json"})
+@RequestMapping("/api/comunidades")
 public class ComunidadesController {
     private final ComunidadesService service;
 
@@ -26,7 +26,7 @@ public class ComunidadesController {
         this.service = service;
     }
 
-    @PostMapping(value = {"/v1/"})
+    @PostMapping(value = {"/v1/"}, consumes = "application/json")
     public ResponseEntity<?> create(/*@Valid*/@RequestBody ComunidadesCreateDTO communityDTO) {
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(
@@ -37,8 +37,8 @@ public class ComunidadesController {
         }
     }
 
-    @PostMapping(value = {"/v1/create-posts/{id}"})
-    public ResponseEntity<?> createPostsInComuniddes(
+    @PostMapping(value = {"/v1/create-posts/{id}"}, consumes = "application/json")
+    public ResponseEntity<?> createPostsInComunidades(
             @PathVariable(value = "id") Long id,
             @RequestBody PostsCreateDTO postsCreateDTO) {
         try {
@@ -88,7 +88,7 @@ public class ComunidadesController {
         return ResponseEntity.status(HttpStatus.OK).body(communities);
     }
 
-    @PutMapping(value = {"/v1/{id}"})
+    @PutMapping(value = {"/v1/{id}"}, consumes = "application/json")
     public ResponseEntity<?> update(
             @PathVariable(value = "id") Long id,
             @RequestBody /*@Valid*/ ComunidadesUpdateDTO communityUpdateDTO) {
@@ -115,7 +115,7 @@ public class ComunidadesController {
         }
     }
 
-    @PostMapping(value = {"/v1/{idComunidade}/participantes/{idParticipante}"})
+    @PostMapping(value = {"/v1/{idComunidade}/participantes/{idParticipante}"}, consumes = "application/json")
     public ResponseEntity<?> adicionarParticipante(
             @PathVariable Long idComunidade,
             @PathVariable Long idParticipante) {
