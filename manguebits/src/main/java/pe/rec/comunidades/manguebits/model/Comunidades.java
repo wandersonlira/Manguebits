@@ -1,5 +1,6 @@
 package pe.rec.comunidades.manguebits.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import pe.rec.comunidades.manguebits.enums.Categoria;
 
@@ -34,7 +35,7 @@ public class Comunidades implements Serializable {
     private LocalDateTime updatedAt;
     @OneToMany(mappedBy = "comunidade", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Posts> posts = new ArrayList<Posts>();
-    @ManyToMany(mappedBy = "comunidades", fetch = FetchType.LAZY)
+    @JsonIgnore @ManyToMany(mappedBy = "comunidades", fetch = FetchType.LAZY)
     private List<Participantes> participantes = new ArrayList<>();
 
 
