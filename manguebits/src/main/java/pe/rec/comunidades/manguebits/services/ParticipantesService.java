@@ -45,7 +45,7 @@ public class ParticipantesService implements IParticipantesService {
 
     @Override
     public Optional<Participantes> login(String email, String senha) {
-        return participantesRepository.findByEmailAndSenha(email, senha);
+        return participantesRepository.findByEmailAndSenhaFetchComunidades(email, senha);
     }
 
     /** Retorna todas as comunidades em que o participante está */

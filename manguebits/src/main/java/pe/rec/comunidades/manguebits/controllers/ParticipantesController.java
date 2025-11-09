@@ -58,7 +58,7 @@ public class ParticipantesController {
         }
     }
 
-    // 🔹 Relacionamento com comunidades
+    // Relacionamento com comunidades
     @GetMapping("/{idParticipante}/comunidades")
     public ResponseEntity<?> listarComunidades(@PathVariable Long idParticipante) {
         try {
