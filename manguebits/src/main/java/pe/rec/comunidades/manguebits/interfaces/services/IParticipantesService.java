@@ -1,7 +1,7 @@
 package pe.rec.comunidades.manguebits.interfaces.services;
 
 import org.springframework.http.HttpStatus;
-import pe.rec.comunidades.manguebits.model.Comunidades;
+import pe.rec.comunidades.manguebits.dto.comunidadesDTO.ComunidadesDTO;
 import pe.rec.comunidades.manguebits.model.Participantes;
 
 import java.util.List;
@@ -12,7 +12,7 @@ public interface IParticipantesService {
 
     Optional<Participantes> login(String email, String senha);
 
-    List<Comunidades> listarComunidadesDoParticipante(Long idParticipante);
+    List<ComunidadesDTO> listarComunidadesDoParticipante(Long idParticipante);
 
     HttpStatus adicionarComunidade(Long idParticipante, Long idComunidade);
 

@@ -3,6 +3,7 @@ package pe.rec.comunidades.manguebits.services;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pe.rec.comunidades.manguebits.dto.comunidadesDTO.ComunidadesDTO;
 import pe.rec.comunidades.manguebits.model.Comunidades;
 import pe.rec.comunidades.manguebits.repositories.ComunidadesRepository;
 import pe.rec.comunidades.manguebits.repositories.ParticipantesRepository;
@@ -48,11 +49,27 @@ public class ParticipantesService implements IParticipantesService {
         return participantesRepository.findByEmailAndSenha(email, senha);
     }
 
-    /** Retorna todas as comunidades em que o participante está */
-    public List<Comunidades> listarComunidadesDoParticipante(Long idParticipante) {
+    /**
+     * Retorna todas as comunidades em que o participante está
+     */
+    public List<ComunidadesDTO> listarComunidadesDoParticipante(Long idParticipante) {
         Participantes participante = participantesRepository.findById(idParticipante)
                 .orElseThrow(() -> new NoSuchElementException("Participante não encontrado."));
-        return participante.getComunidades();
+
+        return participante.getComunidades().stream()
+                .map(c -> new ComunidadesDTO(
+                        c.getId(),
+                        c.getNome(),
+                        c.getDescricao(),
+                        c.getAdministrador(),
+                        c.getCategoria(),
+                        c.getCreatedAt(),
+                        c.getUpdatedAt(),
+                        c.getParticipantes().stream()
+                                .map(p -> p.getId())
+                                .toList()
+                ))
+                .toList();
     }
 
     @Transactional
