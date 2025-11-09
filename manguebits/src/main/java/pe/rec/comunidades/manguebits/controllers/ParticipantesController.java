@@ -11,7 +11,7 @@ import pe.rec.comunidades.manguebits.model.Participantes;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/manguebits/participantes")
+@RequestMapping("/participantes")
 public class ParticipantesController {
 
     private final IParticipantesService participantesService;
