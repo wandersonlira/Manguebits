@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @CrossOrigin(maxAge = 3600)
 @RestController
-@RequestMapping("/api/comunidades")
+@RequestMapping("/comunidades")
 public class ComunidadesController {
     private final ComunidadesService service;
 
