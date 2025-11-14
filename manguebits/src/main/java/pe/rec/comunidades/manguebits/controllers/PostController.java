@@ -10,7 +10,7 @@ import pe.rec.comunidades.manguebits.utils.ErrorResponse;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/posts")
+@RequestMapping("/posts")
 public class PostController {
 
     private final IPostService postService;

@@ -45,7 +45,7 @@ public class ParticipantesService implements IParticipantesService {
 
     @Override
     public Optional<Participantes> login(String email, String senha) {
-        return participantesRepository.findByEmailAndSenha(email, senha);
+        return participantesRepository.findByEmailAndSenhaFetchComunidades(email, senha);
     }
 
     /** Retorna todas as comunidades em que o participante está */
@@ -57,6 +57,9 @@ public class ParticipantesService implements IParticipantesService {
 
     @Transactional
     public HttpStatus adicionarComunidade(Long idParticipante, Long idComunidade) {
+        if (participantesRepository.countFollowing(idParticipante) >= 3 ) {
+            throw new RuntimeException("Limite excedido: você só pode participar de até 3 comunidades.");
+        }
         Participantes participante = participantesRepository.findById(idParticipante)
                 .orElseThrow(() -> new NoSuchElementException("Participante não encontrado."));
 
