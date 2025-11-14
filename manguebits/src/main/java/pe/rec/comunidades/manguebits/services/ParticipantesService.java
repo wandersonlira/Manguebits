@@ -57,6 +57,9 @@ public class ParticipantesService implements IParticipantesService {
 
     @Transactional
     public HttpStatus adicionarComunidade(Long idParticipante, Long idComunidade) {
+        if (participantesRepository.countFollowing(idParticipante) >= 3 ) {
+            throw new RuntimeException("Limite excedido: você só pode participar de até 3 comunidades.");
+        }
         Participantes participante = participantesRepository.findById(idParticipante)
                 .orElseThrow(() -> new NoSuchElementException("Participante não encontrado."));
 
